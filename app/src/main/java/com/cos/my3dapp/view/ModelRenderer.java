@@ -2,6 +2,7 @@ package com.cos.my3dapp.view;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 
 import com.cos.my3dapp.model.Triangle;
 
@@ -17,33 +18,41 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         //환경설정을 위해서 한번만 호출
-        init();
 
         //검은색배경
         GLES20.glClearColor(0.0f,0.0f,0.0f,1.0f);
 
+        mTriangle = new Triangle();
+
     }
 
+
+    private final float[] vPMatrix = new float[16];
+    private final float[] projectionMatrix = new float[16];
+    private final float[] viewMatrix = new float[16];
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         //뷰의 도형이 변경되면 호출
-
         GLES20.glViewport(0,0,width,height);
+
+        //투영 변환 데이터 계산
+        float ratio = (float) width/height;
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 
     }
 
     @Override
-    public void onDrawFrame(GL10 gl) {
+    public void onDrawFrame(GL10 unused) {
         //뷰를 다시 그릴때마다 호출
 
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        mTriangle.draw();
 
-    }
+        //카메라 view 정의
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0); //calculate the projection
 
-    private void init(){
-        mTriangle = new Triangle();
+        mTriangle.draw(vPMatrix);
 
     }
 
