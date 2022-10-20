@@ -5,16 +5,17 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
-import com.cos.my3dapp.model.Triangle;
+import com.cos.my3dapp.model.old.Square;
+import com.cos.my3dapp.model.old.Triangle;
 
 import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 //GLSurfaceView 에서 그려지는 내용을 control
 public class ModelRenderer implements GLSurfaceView.Renderer {
 
     private Triangle mTriangle;
+    private Square mSquare;
 
     private final float[] mTranslateMatrix = new float[16];
     private int screenHeight;
@@ -27,9 +28,10 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
         //검은색배경
         GLES20.glClearColor(0.0f,0.0f,0.0f,1.0f);
+        Matrix.setIdentityM(mTranslateMatrix, 0);
 
         mTriangle = new Triangle();
-        Matrix.setIdentityM(mTranslateMatrix, 0);
+        mSquare = new Square();
 
     }
 
@@ -47,7 +49,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
         //투영 변환 데이터 계산
         float ratio = (float) width/height;
-        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        Matrix.frustumM(projectionMatrix, 0, 3, 0, -1, 1, 3, 7);
 
     }
 
@@ -65,21 +67,22 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0); //calculate the projection
 
-        //mTriangle.draw(vPMatrix);
+
 
         //도형회전
         float[] scratch = new float[16];
 
         long time = SystemClock.uptimeMillis() % 4000L;
         float angle = 0.090f * ((int) time);
+
         Matrix.setRotateM(rotationMatrix, 0, angle, 0, 0, -1.0f);
         //Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0);
 
         Matrix.multiplyMM(scratch, 0, vPMatrix, 0, mTranslateMatrix, 0);
 
+
         mTriangle.draw(scratch);
-
-
+        //mSquare.draw(scratch);
 
     }
 
@@ -96,9 +99,9 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
     public void translate(float dx, float dy, float dz){
 
         Matrix.translateM(mTranslateMatrix, 0,
-                dx*2f /screenHeight,
-                dy *2f / screenHeight,
-                dz *2f / screenHeight);
+                dx * 2f / screenHeight,
+                dy * 2f / screenHeight,
+                dz * 2f / screenHeight);
 
     }
 

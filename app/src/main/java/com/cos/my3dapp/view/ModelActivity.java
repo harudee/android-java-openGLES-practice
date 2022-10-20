@@ -20,8 +20,6 @@ public class ModelActivity extends Activity {
 
     }
 
-
-
     @Override
     protected void onPause() {
         super.onPause();

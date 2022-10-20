@@ -18,13 +18,11 @@ public class ModelSurfaceView extends GLSurfaceView {
         mRenderer = new ModelRenderer();
         setRenderer(mRenderer);
 
-        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); //그리기 데이터가 변경될때 그림 그리기
-
+        //setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
     }
 
    /* public ModelSurfaceView(Context context, AttributeSet attrs){ super(context, attrs); }*/
-
     private float mPrevX;
     private float mPrevY;
 
