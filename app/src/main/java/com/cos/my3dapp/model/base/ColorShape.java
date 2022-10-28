@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+//색상 설정
 public abstract class ColorShape extends Shape {
 
     protected abstract String getColorHandleName();

@@ -29,7 +29,21 @@ public class ShapeRenderer<T extends Shape> implements GLSurfaceView.Renderer {
 
     }
 
+    public T getItem(){
+        return item;
+    }
 
+    public void onResume(){
+        item.onResume();
+    }
+
+    public void onPause(){
+        item.onPause();
+    }
+
+    public void onDestroy(){
+        item.onDestroy();
+    }
 
 
     @Override
@@ -39,17 +53,16 @@ public class ShapeRenderer<T extends Shape> implements GLSurfaceView.Renderer {
 
     }
 
+
     /*
         setLookAtM : 바로보는 시점 (카메라 위치)
         frustumM : 비쳐지는 영역 (카메라 렌즈 )
     */
-
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        //surface size가 변경되었을 때
+        //surface size가 변경되었을 때 호출
 
         GLES20.glViewport(0,0,width,height);
-
 
 
         //투영 정의
@@ -61,7 +74,6 @@ public class ShapeRenderer<T extends Shape> implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(viewMatrix, 0,0, 0, -3, 0f, 0f, 0f,0f, 1.0f, 0.0f);
         Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
-
         item.onSurfaceChanged(width, height);
 
     }
@@ -69,6 +81,7 @@ public class ShapeRenderer<T extends Shape> implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         //rendering 수행
+
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
         item.onDrawFrame(vpMatrix);

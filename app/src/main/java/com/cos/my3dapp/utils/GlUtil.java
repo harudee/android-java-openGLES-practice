@@ -26,10 +26,10 @@ public class GlUtil {
     //setProgram
     public static int createProgram(String vertexSource, String fragmentSource){
 
-        int vertexShader = ModelRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
+        int vertexShader = getShader(GLES20.GL_VERTEX_SHADER, vertexSource);
         if(vertexShader == 0 ) return 0;
 
-        int fragmentShader = ModelRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
+        int fragmentShader = getShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
         if(fragmentShader == 0) return 0;
 
         int program = GLES20.glCreateProgram();

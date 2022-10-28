@@ -2,13 +2,14 @@ package com.cos.my3dapp.model.old;
 
 import android.opengl.GLES20;
 
+import com.cos.my3dapp.utils.GlUtil;
 import com.cos.my3dapp.view.ModelRenderer;
 
 public class Triangle extends ShapeBase {
 
     //vertex 를 배치
     private final String vertexShaderCode =
-            "uniform mat4 uMVPMatrix;" +
+            //"uniform mat4 uMVPMatrix;" +
             "attribute vec4 vPosition;" +
             //"attribute vec4 aColor;" +  // 각 vertex에 있을 색상(rgba)값 버퍼
             //"varying vec4 ourColor;" +  // fragement shader로 넘어갈 보간 값
@@ -18,6 +19,7 @@ public class Triangle extends ShapeBase {
 
     //색 또는 텍스처 적용
     private final String fragmentShaderCode = "precision mediump float;" +
+            "precision medium float"+
             "uniform vec4 vColor;" +
             //"varying vec4 ourColor;"+
             "void main() {" +
@@ -43,8 +45,8 @@ public class Triangle extends ShapeBase {
 
         setVertices(triangleVertices);
 
-        int vertexShader = ModelRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-        int fragmentShader = ModelRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+        int vertexShader = GlUtil.getShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+        int fragmentShader = GlUtil.getShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
         setProgram(vertexShader, fragmentShader);
 
@@ -54,7 +56,6 @@ public class Triangle extends ShapeBase {
     public void draw(float[] mvpMatrix) {
 
         vertexCount = triangleVertices.length / COORDS_PER_VERTEX;
-
 
         GLES20.glUseProgram(mProgram);
 
@@ -68,7 +69,6 @@ public class Triangle extends ShapeBase {
 
         //삼각형 색 채우기
         setColors(color, vertexCount);
-
         //카메라 변환 적용
         setCamera(mvpMatrix,vertexCount);
 

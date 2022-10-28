@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-//refactor -> 보일러플레이트 코드 정리하기
+//refactor -> 보일러플레이트 코드 정리
 public abstract class Shape {
 
     protected abstract String getVertexShader();
@@ -38,7 +38,6 @@ public abstract class Shape {
     protected final float[] mvpMatrix = new float[16];
 
     public Shape(){
-
         //setVertices
         ByteBuffer bb = ByteBuffer.allocateDirect(getVertices().length * SIZE_OF_FLOAT);
         bb.order(ByteOrder.nativeOrder());

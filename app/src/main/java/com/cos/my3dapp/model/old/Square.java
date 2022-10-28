@@ -2,6 +2,7 @@ package com.cos.my3dapp.model.old;
 
 import android.opengl.GLES20;
 
+import com.cos.my3dapp.utils.GlUtil;
 import com.cos.my3dapp.view.ModelRenderer;
 
 import java.nio.ByteBuffer;
@@ -11,7 +12,6 @@ public class Square extends ShapeBase {
 
     private FloatBuffer vertexBuffer;
     private ByteBuffer indexBuffer;
-
 
     //#Shader Code
     private final String vertexShaderCode =
@@ -54,8 +54,8 @@ public class Square extends ShapeBase {
 
     public Square(){
 
-        int vertexShader = ModelRenderer.loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-        int fragmentShader = ModelRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+        int vertexShader = GlUtil.getShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+        int fragmentShader = GlUtil.getShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
         setVertices(squareCoords);
         setOrders(drawOrder);
